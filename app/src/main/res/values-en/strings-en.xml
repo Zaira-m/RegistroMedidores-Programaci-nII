@@ -1,0 +1,23 @@
+<resources>
+    <!-- App name -->
+    <string name="app_name">Meter Register</string>
+
+    <!-- Titles -->
+    <string name="title_list_screen">Meter Records</string>
+    <string name="title_add_screen">New Reading</string>
+
+    <!-- Form labels -->
+    <string name="label_value">Meter</string>
+    <string name="label_date">Date</string>
+    <string name="label_type">Meter type:</string>
+
+    <!-- Meter types -->
+    <string name="type_water">Water</string>
+    <string name="type_light">Light</string>
+    <string name="type_gas">Gas</string>
+
+    <!-- Buttons -->
+    <string name="btn_save">Save reading</string>
+    <string name="btn_back">Back</string>
+    <string name="btn_add">New reading</string>
+</resources>
