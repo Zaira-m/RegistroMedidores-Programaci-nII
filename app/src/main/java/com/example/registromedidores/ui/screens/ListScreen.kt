@@ -3,10 +3,6 @@ package com.example.registromedidores.ui.screens
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Bolt
-import androidx.compose.material.icons.outlined.LocalGasStation
-import androidx.compose.material.icons.outlined.WaterDrop
 import androidx.compose.material3.Divider
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -19,9 +15,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.example.registromedidores.R
 import com.example.registromedidores.data.db.ReadingEntity
 import com.example.registromedidores.ui.viewmodel.ReadingViewModel
 import java.text.NumberFormat
@@ -33,7 +30,6 @@ fun ListScreen(
     onAddClick: () -> Unit
 ) {
     val readings by viewModel.readings.collectAsState()
-
 
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -80,8 +76,6 @@ fun ListScreen(
 
 @Composable
 private fun ReadingRow(item: ReadingEntity) {
-    // Layout tipo “tabla” como la referencia:
-    // [icon + TYPE] [VALUE centrado] [DATE derecha]
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -94,8 +88,9 @@ private fun ReadingRow(item: ReadingEntity) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
-                imageVector = meterIcon(item.type),
-                contentDescription = item.type
+                painter = painterResource(id = meterDrawable(item.type)),
+                contentDescription = item.type,
+                modifier = Modifier.size(22.dp)
             )
             Spacer(modifier = Modifier.width(8.dp))
             Text(
@@ -104,16 +99,15 @@ private fun ReadingRow(item: ReadingEntity) {
             )
         }
 
-        // Columna centro: valor (ancho fijo y centrado)
+        // Columna centro: valor (centrado)
         Box(
-            modifier = Modifier
-                .weight(1f),
+            modifier = Modifier.weight(1f),
             contentAlignment = Alignment.Center
         ) {
             Text(text = formatNumber(item.value))
         }
 
-        // Columna derecha: fecha (ancho fijo, alineado a la derecha)
+        // Columna derecha: fecha (alineado derecha)
         Box(
             modifier = Modifier.width(110.dp),
             contentAlignment = Alignment.CenterEnd
@@ -123,12 +117,12 @@ private fun ReadingRow(item: ReadingEntity) {
     }
 }
 
-private fun meterIcon(type: String): ImageVector {
+private fun meterDrawable(type: String): Int {
     return when (type.uppercase()) {
-        "AGUA", "WATER" -> Icons.Outlined.WaterDrop
-        "LUZ", "LIGHT" -> Icons.Outlined.Bolt
-        "GAS" -> Icons.Outlined.LocalGasStation
-        else -> Icons.Outlined.WaterDrop
+        "AGUA", "WATER" -> R.drawable.ic_water
+        "LUZ", "LIGHT" -> R.drawable.ic_electric
+        "GAS" -> R.drawable.ic_gas
+        else -> R.drawable.ic_water
     }
 }
 
@@ -136,5 +130,3 @@ private fun formatNumber(value: Int): String {
     val nf = NumberFormat.getInstance(Locale("es", "CL"))
     return nf.format(value)
 }
-
-
